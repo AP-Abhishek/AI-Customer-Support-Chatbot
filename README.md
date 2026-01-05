@@ -6,6 +6,8 @@
 ![Vibe](https://img.shields.io/badge/Vibe-Immaculate-purple)
 ![Editor](https://img.shields.io/badge/Editor-VS_Code-blue)
 
+[**🌐 Visit Website**](https://ai-customer-support-chatbot-frontend-by-tuttu.vercel.app)
+
 ## 🚀 Overview
 
 This project is a **"Vibe Code"** intern-level project designed to demonstrate full-stack integration of modern AI tools. It features a responsive chat interface that communicates with Google's Gemini Pro model to answer user queries and automatically generates smart summaries of the conversation (Issue, Category, Priority) using AI logic.
