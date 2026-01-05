@@ -1,0 +1,112 @@
+.chat-window {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  height: 100%;
+}
+
+.messages-area {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  background-color: #F9FAFB;
+}
+
+.input-area {
+  padding: 1rem;
+  border-top: 1px solid #E5E7EB;
+  background-color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.input-form {
+  display: flex;
+  gap: 0.75rem;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #D1D5DB;
+  border-radius: 9999px;
+  font-size: 1rem;
+  outline: none;
+  outline: none;
+  transition: all 0.2s;
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .messages-area {
+    padding: 1rem;
+  }
+  
+  .input-area {
+    padding: 0.75rem;
+  }
+  
+  input[type="text"] {
+    font-size: 16px;
+  }
+}
+
+input[type="text"]:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px var(--secondary-color);
+}
+
+button[type="submit"] {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 9999px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #4338CA;
+}
+
+button[type="submit"]:disabled {
+  background-color: #9CA3AF;
+  cursor: not-allowed;
+}
+
+.end-chat-btn {
+    align-self: center;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    text-decoration: underline;
+    opacity: 0.7;
+}
+
+.end-chat-btn:hover {
+    color: var(--error-color);
+    opacity: 1;
+}
+
+.typing-indicator span {
+  animation: bounce 1.4s infinite ease-in-out both;
+  display: inline-block;
+  margin: 0 1px;
+}
+
+.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes bounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
