@@ -66,5 +66,3 @@ This project is a **"Vibe Code"** intern-level project designed to demonstrate f
 2.  Type a message to start chatting (e.g., "I have a billing issue").
 3.  Click **"End Chat & Summarize"** to generate a ticket.
 4.  View the summary card and check Firebase for the saved record.
-
----
