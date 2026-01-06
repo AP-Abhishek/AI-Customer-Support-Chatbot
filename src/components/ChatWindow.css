@@ -48,13 +48,25 @@ input[type="text"] {
   .messages-area {
     padding: 1rem;
   }
-  
+
   .input-area {
     padding: 0.75rem;
   }
-  
+
   input[type="text"] {
     font-size: 16px;
+  }
+
+  .input-form {
+    gap: 0.5rem;
+  }
+
+  .message-container {
+    max-width: 90%;
+  }
+
+  button[type="submit"] {
+    padding: 0.75rem 1rem;
   }
 }
 
@@ -83,18 +95,18 @@ button[type="submit"]:disabled {
 }
 
 .end-chat-btn {
-    align-self: center;
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    text-decoration: underline;
-    opacity: 0.7;
+  align-self: center;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  opacity: 0.7;
 }
 
 .end-chat-btn:hover {
-    color: var(--error-color);
-    opacity: 1;
+  color: var(--error-color);
+  opacity: 1;
 }
 
 .typing-indicator span {
@@ -103,10 +115,23 @@ button[type="submit"]:disabled {
   margin: 0 1px;
 }
 
-.typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
-.typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+.typing-indicator span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.typing-indicator span:nth-child(2) {
+  animation-delay: -0.16s;
+}
 
 @keyframes bounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1); }
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+
+  40% {
+    transform: scale(1);
+  }
 }
