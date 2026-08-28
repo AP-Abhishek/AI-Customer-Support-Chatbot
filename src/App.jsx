@@ -22,10 +22,14 @@ function App() {
         });
         const data = await response.json();
         setSummary(data);
+        setIsSummarizing(false);
         
-        await saveConversation(messages, data);
+        // Save to Firebase asynchronously in background
+        saveConversation(messages, data).catch(err => {
+            console.error("Failed to save support ticket to Firebase:", err);
+        });
     } catch (e) {
-    } finally {
+        console.error("Summary error:", e);
         setIsSummarizing(false);
     }
   };
