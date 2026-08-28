@@ -30,14 +30,18 @@ app.get('/api/health', (req, res) => {
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, history } = req.body;
-    
+
     if (!message) {
       return res.status(400).json({ error: 'Message is required' });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest"});
+    const model = genAI.getGenerativeModel({
+      model: "gemini-3.5-flash",
+      systemInstruction: "You are a friendly and helpful customer support agent. Answer every user query concisely in 2 to 3 complete sentences using as few words as possible. Always finish your thoughts completely and never cut off mid-sentence."
+    });
+
     const chat = model.startChat({
-        history: history || [],
+      history: history || [],
     });
 
     const result = await chat.sendMessage(message);
@@ -46,11 +50,12 @@ app.post('/api/chat', async (req, res) => {
 
     res.json({ text });
   } catch (error) {
+    console.error("Chat API Error:", error);
     const isRateLimit = error.status === 429 || error.message?.includes('429');
-    const errorMessage = isRateLimit 
-        ? "⏳ I'm receiving too many messages right now. Please wait about a minute and try again." 
-        : "Sorry, I encountered a server error. Please try again later.";
-        
+    const errorMessage = isRateLimit
+      ? "⏳ I'm receiving too many messages right now. Please wait about a minute and try again."
+      : "Sorry, I encountered a server error. Please try again later.";
+
     res.json({ text: errorMessage });
   }
 });
@@ -62,38 +67,38 @@ if (!process.env.GEMINI_API_KEY) {
 app.post('/api/summary', async (req, res) => {
   try {
     const { conversation } = req.body;
-    
+
     if (!conversation) {
-        return res.status(400).json({ error: 'Conversation history is required' });
+      return res.status(400).json({ error: 'Conversation history is required' });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest"});
-    
-    const prompt = `
-      Analyze the following customer support conversation and provide:
-      1. A short issue summary (2 lines max).
-      2. Issue Category (choose closest: "Billing", "Technical", "Account", "General").
-      3. Priority level (Low, Medium, High) based on urgency and sentiment.
-      
-      Output ONLY raw JSON with keys: summary, category, priority.
-      
-      Conversation:
-      ${JSON.stringify(conversation)}
-    `;
+    const model = genAI.getGenerativeModel({
+      model: "gemini-3.5-flash",
+      systemInstruction: "You are a fast JSON ticket generator. Extract summary, category, and priority in JSON format immediately.",
+      generationConfig: {
+        responseMimeType: "application/json"
+      }
+    });
+
+    const transcript = Array.isArray(conversation)
+      ? conversation.map(c => `${c.role}: ${c.text}`).join('\n')
+      : String(conversation);
+
+    const prompt = `Categorize and summarize this chat transcript:
+${transcript}`;
 
     const result = await model.generateContent(prompt);
     const response = await result.response;
-    let text = response.text();
-    
-    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    let text = response.text().trim();
 
     try {
-        const json = JSON.parse(text);
-        res.json(json);
+      const json = JSON.parse(text);
+      res.json(json);
     } catch (e) {
-        res.json({ summary: text, category: "General", priority: "Low" });
+      res.json({ summary: text, category: "General", priority: "Low" });
     }
   } catch (error) {
+    console.error("Summary API Error:", error);
     res.json({ summary: "Summary unavailable (Rate Limit/Error)", category: "General", priority: "Low" });
   }
 });
